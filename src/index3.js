@@ -7,11 +7,11 @@ if (WEBGL.isWebGLAvailable()) {
     
   // 장면
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xeeeeee);
+  scene.background = new THREE.Color(0xffffff);
   // 카메라
-  const camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 0.1,1000);
+  const camera = new THREE.PerspectiveCamera(150, window.innerWidth / window.innerHeight, 0.1,1000);
 //   카메라(x,y,z)
-  camera.position.set(0,0,1);
+  camera.position.set(0,1,1.8);
   // 렌더러
   const renderer = new THREE.WebGLRenderer({
     alpha:true,
@@ -20,9 +20,9 @@ if (WEBGL.isWebGLAvailable()) {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 //   도형추가
-  const geometry = new THREE.BoxGeometry(0.5,0.5,0.5);
+  const geometry = new THREE.SphereGeometry(0.5,32,16);
   const material = new THREE.MeshStandardMaterial({
-    color: 0xFF7F00
+    color: 0xffffff
   });
   const cube = new THREE.Mesh(geometry,material);
   cube.rotation.y = 0.5;
@@ -31,7 +31,7 @@ if (WEBGL.isWebGLAvailable()) {
 //   바닥추가
   const planeGeometry = new THREE.PlaneGeometry(20,20);
   const planeMaterial = new THREE.MeshStandardMaterial({
-    color : 0xffff00
+    color : 0xffffff
   });
   const plane = new THREE.Mesh(planeGeometry, planeMaterial);
   plane.rotation.x = -0.5*Math.PI;
@@ -39,9 +39,35 @@ if (WEBGL.isWebGLAvailable()) {
   scene.add(plane);
 
  // 빛
-  const pointLight = new THREE.PointLight(0xffffbb,1);
-  pointLight.position.set(0,2,12);
-  scene.add(pointLight);
+  const ambientLight = new THREE.AmbientLight(0xFF7F00,0.1);
+//   scene.add(ambientLight);
+
+//   빛 해의 위치
+  const directionalLight = new THREE.DirectionalLight(0xffffff,0.5);
+  directionalLight.position.set(-1,1,1);
+  const dlHelper = new THREE.DirectionalLightHelper(directionalLight, 0.8, 0x0000ff);
+//   scene.add(dlHelper);
+//   scene.add(directionalLight);
+
+const hemisphereLight = new THREE.HemisphereLight(0x0000ff,0xff0000,0.3);
+// scene.add(hemisphereLight);
+
+const pointLight = new THREE.PointLight(0xffffff,1);
+// scene.add(pointLight);
+pointLight.position.set(-2,0.5,0.5);
+const plHelper = new THREE.PointLightHelper(pointLight, 0.1);
+// scene.add(plHelper);
+
+const rectLight = new THREE.RectAreaLight(0xffffff,2,1,1);
+// scene.add(rectLight);
+rectLight.position.set(0.5,0.5,1);
+rectLight.lookAt(0,0,0);
+
+const spotLight = new THREE.SpotLight(0xffffff,0.5);
+scene.add(spotLight);
+
+
+
   function render(time){
     renderer.render(scene,camera);
     
