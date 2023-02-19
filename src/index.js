@@ -24,7 +24,16 @@ if (WEBGL.isWebGLAvailable()) {
 
   // 매쉬
   const geometry01 = new THREE.BoxGeometry( 1, 1, 1 );
-  const material01 = new THREE.MeshStandardMaterial( { color: 0x00ff00 } );
+  const material01 = new THREE.MeshStandardMaterial( { 
+    color: 0x00ff00,
+    metalness:1,
+    roughness:0.1,
+    wireframe:true,
+    // transparent:true,
+    // // 투명도
+    // opacity:1
+    
+  } );
 
   const cube = new THREE.Mesh( geometry01, material01 );
   scene.add( cube );
@@ -32,11 +41,12 @@ if (WEBGL.isWebGLAvailable()) {
 
   
   const geometry02 = new THREE.TorusGeometry( 10, 1, 15, 100 );
-  const material02 = new THREE.MeshStandardMaterial( { color: 0xffff00 } );
+  const material02 = new THREE.MeshDepthMaterial( { color: 0xffff00 } );
   const torus = new THREE.Mesh( geometry02, material02 );
   scene.add( torus );
-  const geometry = new THREE.SphereGeometry( 1, 8, 4 );
-  const material = new THREE.MeshStandardMaterial( { color: 0x00ff00 } );
+  const geometry = new THREE.SphereGeometry( 1, 32, 16 );
+  const material = new THREE.MeshStandardMaterial( { color: 0x00ff00,
+    wireframe:true, } );
   const sphere = new THREE.Mesh( geometry, material );
   scene.add( sphere );
   camera.position.z = 15;
